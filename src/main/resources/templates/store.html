@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        th, td {
+            border: 1px solid #000;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+        });
+
+        function crawler() {
+            $.get( "/crawler", function(data) {
+                console.log(data)
+            });
+        }
+    </script>
+</head>
+<body>
+    <input type="button" value="크롤링" onclick="crawler();" />
+    <table id="list">
+        <thead>
+            <tr>
+                <th scope="col">번호</th>
+                <th scope="col">상호명</th>
+                <th scope="col">구분</th>
+                <th scope="col">소재지</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="dto, state : ${list}">
+                <td>[[${state.index+1}]]</td>
+                <td th:text="${dto.name}"></td>
+                <td th:text="${dto.lottoType}"></td>
+                <td th:text="${dto.address}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
