@@ -1,7 +1,9 @@
 package com.example.lottocrawler.repository;
 
+import com.example.lottocrawler.crawler.Crawler;
 import com.example.lottocrawler.domain.LottoType;
 import com.example.lottocrawler.domain.Store;
+import com.example.lottocrawler.dto.StoreStatistics;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +18,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class StoreRepositoryTest {
     @Autowired
     private StoreRepository repository;
+
+    @Autowired
+    private Crawler crawler;
 
     @Test
     void equals() {
@@ -63,6 +68,20 @@ class StoreRepositoryTest {
         //then
         Store output = storeList.get(0);
         assertThat(input).isEqualTo(output);
+    }
+
+    @Test
+    void findGroupByName() {
+        //given
+        crawler.start();
+
+        //when
+        List<StoreStatistics> storeList = repository.findGroupByName();
+
+        //then
+        for(StoreStatistics storeStatistics : storeList) {
+            System.out.println(storeStatistics.getName());
+        }
     }
 
 }

@@ -17,7 +17,7 @@ public class StoreController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("list", service.findAll());
+        model.addAttribute("list", service.findGroupByName());
         return "store";
     }
 

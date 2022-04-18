@@ -7,6 +7,14 @@
         th, td {
             border: 1px solid #000;
         }
+        li {
+            list-style: none;
+            border: 1px solid #000;
+            float: left;
+            width:30%;
+            height: 200px;
+            margin-right: 1%;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script>
@@ -22,7 +30,15 @@
 </head>
 <body>
     <input type="button" value="크롤링" onclick="crawler();" />
-    <table id="list">
+    <h1>1회 ~ 1010회 1등 최대 당첨 점포명 top3 (자동)</h1>
+    <ul>
+        <li th:each="dto, state : ${list}">
+            <p th:text="${dto.name}"></p>
+            <p th:text="${dto.count} + '건'"></p>
+        </li>
+    </ul>
+
+    <!--/*<table id="list" style="clear: both;">
         <thead>
             <tr>
                 <th scope="col">번호</th>
@@ -39,6 +55,6 @@
                 <td th:text="${dto.address}"></td>
             </tr>
         </tbody>
-    </table>
+    </table>*/-->
 </body>
 </html>
