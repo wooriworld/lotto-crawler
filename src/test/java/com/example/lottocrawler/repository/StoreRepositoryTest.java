@@ -3,13 +3,14 @@ package com.example.lottocrawler.repository;
 import com.example.lottocrawler.crawler.Crawler;
 import com.example.lottocrawler.domain.LottoType;
 import com.example.lottocrawler.domain.Store;
-import com.example.lottocrawler.domain.StoreId;
-import com.example.lottocrawler.dto.StoreStatistics;
+import com.example.lottocrawler.dto.StoreStatisticsDto;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -23,42 +24,31 @@ class StoreRepositoryTest {
     @Autowired
     private Crawler crawler;
 
+    private  List<Store> storeList;
+
+    @BeforeEach
+    void setup() {
+        storeList = new ArrayList<>();
+        storeList.add(Store.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
+        storeList.add(Store.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
+        storeList.add(Store.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
+        storeList.add(Store.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
+        storeList.add(Store.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
+        repository.deleteAll();
+        repository.saveAll(storeList);
+    }
+
     @Test
     void equals() {
-        String name = "name1";
-        String address = "address1";
-        int round = 1;
-        LottoType lottoType = LottoType.AUTO;
-
-        StoreId storeId = StoreId.builder().name(name).address(address).round(round).build();
-
-        Store input = Store.builder()
-                .storeId(storeId)
-                .lottoType(lottoType)
-                .build();
-
-        Store output = Store.builder()
-                .storeId(storeId)
-                .lottoType(lottoType)
-                .build();
-
+        Store input = storeList.get(0);
+        Store output = storeList.get(0);
         assertThat(input).isEqualTo(output);
     }
 
     @Test
     void createAndRead() {
         //given
-        String name = "name1";
-        String address = "address1";
-        int round = 1;
-        LottoType lottoType = LottoType.AUTO;
-
-        StoreId storeId = StoreId.builder().name(name).address(address).round(round).build();
-
-        Store input = Store.builder()
-                .storeId(storeId)
-                .lottoType(lottoType)
-                .build();
+        Store input = storeList.get(0);
 
         //when
         repository.save(input);
@@ -75,12 +65,25 @@ class StoreRepositoryTest {
         crawler.start();
 
         //when
-        List<StoreStatistics> storeList = repository.findGroupByName();
+        List<StoreStatisticsDto> storeList = repository.findGroupByName();
 
         //then
-        for(StoreStatistics storeStatistics : storeList) {
-            System.out.println(storeStatistics.getName());
+        for(StoreStatisticsDto storeStatisticsDto : storeList) {
+            System.out.println(storeStatisticsDto.getName());
         }
+    }
+
+    @Test
+    void findByNameAndAddress() {
+        //given
+        String name = storeList.get(0).getName();
+        String address = storeList.get(0).getAddress();
+
+        //when
+        List<Store> list = repository.findByNameAndAddress(name, address);
+
+        //then
+        assertThat(list.size()).isEqualTo(storeList.size());
     }
 
 }

@@ -16,9 +16,9 @@ public class StoreController {
     private final Crawler crawler;
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String test(Model model) {
         model.addAttribute("list", service.findGroupByName());
-        return "store";
+        return "/index";
     }
 
     @GetMapping("/crawler")

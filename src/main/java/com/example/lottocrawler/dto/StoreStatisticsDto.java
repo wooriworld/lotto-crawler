@@ -1,8 +1,6 @@
 package com.example.lottocrawler.dto;
 
-import lombok.ToString;
-
-public interface StoreStatistics {
+public interface StoreStatisticsDto {
     String getName();
     String getAddress();
     Long getCount();

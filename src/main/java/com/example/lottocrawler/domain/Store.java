@@ -10,20 +10,32 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 public class Store extends BaseEntity {
-    @EmbeddedId
-    private StoreId storeId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(nullable = false)
+    private String name;
+    @Column(nullable = false)
+    private String address;
+    @Column
+    private int round;
     @Column(nullable = false)
     private LottoType lottoType;
+
     @Builder
-    public Store(StoreId storeId, LottoType lottoType) {
-        this.storeId = storeId;
+    public Store(Long id, String name, String address, int round, LottoType lottoType) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.round = round;
         this.lottoType = lottoType;
     }
+
     public StoreDto toDto() {
         return StoreDto.builder()
-                .name(storeId.getName())
-                .address(storeId.getAddress())
-                .round(storeId.getRound())
+                .name(name)
+                .address(address)
+                .round(round)
                 .lottoType(lottoType)
                 .build();
     }

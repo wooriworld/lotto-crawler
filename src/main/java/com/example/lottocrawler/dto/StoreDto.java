@@ -2,7 +2,6 @@ package com.example.lottocrawler.dto;
 
 import com.example.lottocrawler.domain.LottoType;
 import com.example.lottocrawler.domain.Store;
-import com.example.lottocrawler.domain.StoreId;
 import lombok.*;
 
 @ToString
@@ -25,7 +24,9 @@ public class StoreDto {
 
     public Store toEntity() {
         return Store.builder()
-                .storeId(StoreId.builder().name(name).address(address).round(round).build())
+                .name(name)
+                .address(address)
+                .round(round)
                 .lottoType(lottoType)
                 .build();
     }

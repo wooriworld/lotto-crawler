@@ -22,7 +22,7 @@ public class Crawler {
     @Transactional
     public void start() {
         try {
-            for(int round = 1010; round > 0; round--) {
+            for(int round = 1011; round > 0; round--) {
                 Connection.Response con = Jsoup.connect("https://www.dhlottery.co.kr/store.do?method=topStore&pageGubun=L645")
                         .data("method", "topStore")
                         .data("nowPage", "1")

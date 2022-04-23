@@ -2,11 +2,14 @@ package com.example.lottocrawler.service;
 
 import com.example.lottocrawler.domain.LottoType;
 import com.example.lottocrawler.dto.StoreDto;
+import com.example.lottocrawler.repository.StoreRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -17,20 +20,28 @@ class StoreServiceTest {
     @Autowired
     private StoreService service;
 
+    @Autowired
+    private StoreRepository repository;
+
+    private  List<StoreDto> storeDtoList;
+
+    @BeforeEach
+    void setup() {
+        storeDtoList = new ArrayList<>();
+        storeDtoList.add(StoreDto.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
+        storeDtoList.add(StoreDto.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
+        storeDtoList.add(StoreDto.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
+        storeDtoList.add(StoreDto.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
+        storeDtoList.add(StoreDto.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
+        repository.deleteAll();
+        for(StoreDto dto : storeDtoList)
+            service.save(dto);
+    }
+
     @Test
     void saveAndFindAll() {
         //given
-        String name = "name1";
-        String address = "address1";
-        int round = 1;
-        LottoType lottoType = LottoType.AUTO;
-
-        StoreDto input = StoreDto.builder()
-                .name(name)
-                .address(address)
-                .round(round)
-                .lottoType(lottoType)
-                .build();
+        StoreDto input = storeDtoList.get(0);
 
         //when
         service.save(input);
@@ -39,5 +50,19 @@ class StoreServiceTest {
         //then
         StoreDto output = storeList.get(0);
         assertThat(input).isEqualTo(output);
+    }
+
+    @Test
+    void findByNameAndAddress() {
+        //given
+        String name = storeDtoList.get(0).getName();
+        String address = storeDtoList.get(0).getAddress();
+
+        //when
+        List<StoreDto> output = service.findByNameAndAddress(name, address);
+
+
+        //then
+        assertThat(output.size()).isEqualTo(storeDtoList.size());
     }
 }

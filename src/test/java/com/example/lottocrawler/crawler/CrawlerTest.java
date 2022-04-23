@@ -23,6 +23,10 @@ class CrawlerTest {
         crawler.start();
 
         List<StoreDto> storeList = service.findAll();
+        for (int i = 0; i < storeList.size(); i++) {
+            StoreDto dto = storeList.get(i);
+            System.out.println(dto);
+        }
         System.out.println(storeList.size());
     }
 }
