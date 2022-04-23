@@ -3,6 +3,7 @@ package com.example.lottocrawler.repository;
 import com.example.lottocrawler.crawler.Crawler;
 import com.example.lottocrawler.domain.LottoType;
 import com.example.lottocrawler.domain.Store;
+import com.example.lottocrawler.domain.StoreId;
 import com.example.lottocrawler.dto.StoreStatistics;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,23 +25,21 @@ class StoreRepositoryTest {
 
     @Test
     void equals() {
-        int round = 1010;
         String name = "name1";
-        LottoType lottoType = LottoType.AUTO;
         String address = "address1";
+        int round = 1;
+        LottoType lottoType = LottoType.AUTO;
+
+        StoreId storeId = StoreId.builder().name(name).address(address).round(round).build();
 
         Store input = Store.builder()
-                .round(round)
-                .name(name)
+                .storeId(storeId)
                 .lottoType(lottoType)
-                .address(address)
                 .build();
 
         Store output = Store.builder()
-                .round(round)
-                .name(name)
+                .storeId(storeId)
                 .lottoType(lottoType)
-                .address(address)
                 .build();
 
         assertThat(input).isEqualTo(output);
@@ -49,16 +48,16 @@ class StoreRepositoryTest {
     @Test
     void createAndRead() {
         //given
-        int round = 1010;
         String name = "name1";
-        LottoType lottoType = LottoType.AUTO;
         String address = "address1";
+        int round = 1;
+        LottoType lottoType = LottoType.AUTO;
+
+        StoreId storeId = StoreId.builder().name(name).address(address).round(round).build();
 
         Store input = Store.builder()
-                .round(1010)
-                .name(name)
+                .storeId(storeId)
                 .lottoType(lottoType)
-                .address(address)
                 .build();
 
         //when

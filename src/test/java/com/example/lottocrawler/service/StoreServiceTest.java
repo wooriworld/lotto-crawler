@@ -20,16 +20,16 @@ class StoreServiceTest {
     @Test
     void saveAndFindAll() {
         //given
-        int round = 1010;
         String name = "name1";
-        LottoType lottoType = LottoType.AUTO;
         String address = "address1";
+        int round = 1;
+        LottoType lottoType = LottoType.AUTO;
 
         StoreDto input = StoreDto.builder()
-                .round(round)
                 .name(name)
-                .lottoType(lottoType)
                 .address(address)
+                .round(round)
+                .lottoType(lottoType)
                 .build();
 
         //when

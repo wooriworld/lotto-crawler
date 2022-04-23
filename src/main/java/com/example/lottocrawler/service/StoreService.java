@@ -1,6 +1,7 @@
 package com.example.lottocrawler.service;
 
 import com.example.lottocrawler.domain.Store;
+import com.example.lottocrawler.domain.StoreId;
 import com.example.lottocrawler.dto.StoreDto;
 import com.example.lottocrawler.dto.StoreStatistics;
 import com.example.lottocrawler.repository.StoreRepository;
@@ -18,8 +19,8 @@ public class StoreService {
     private final StoreRepository repository;
 
     @Transactional
-    public Long save(StoreDto dto) {
-        return repository.save(dto.toEntity()).getId();
+    public StoreId save(StoreDto dto) {
+        return repository.save(dto.toEntity()).getStoreId();
     }
 
     @Transactional(readOnly = true)

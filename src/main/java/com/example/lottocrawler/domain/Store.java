@@ -1,41 +1,30 @@
 package com.example.lottocrawler.domain;
 
 import com.example.lottocrawler.dto.StoreDto;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-@EqualsAndHashCode(callSuper = false)
 @Getter
+@ToString
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Entity
 public class Store extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column
-    private int round;
-    @Column(nullable = false)
-    private String name;
+    @EmbeddedId
+    private StoreId storeId;
     @Column(nullable = false)
     private LottoType lottoType;
-    @Column(nullable = false)
-    private String address;
     @Builder
-    public Store(int round, String name, LottoType lottoType, String address) {
-        this.round = round;
-        this.name = name;
+    public Store(StoreId storeId, LottoType lottoType) {
+        this.storeId = storeId;
         this.lottoType = lottoType;
-        this.address = address;
     }
     public StoreDto toDto() {
         return StoreDto.builder()
-                .round(round)
-                .name(name)
+                .name(storeId.getName())
+                .address(storeId.getAddress())
+                .round(storeId.getRound())
                 .lottoType(lottoType)
-                .address(address)
                 .build();
     }
 }
