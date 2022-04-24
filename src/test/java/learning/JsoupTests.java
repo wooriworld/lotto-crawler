@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import javax.xml.parsers.DocumentBuilder;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class JsoupTests {
     @Test
@@ -81,6 +83,28 @@ public class JsoupTests {
 
     @Test
     void test5() throws IOException {
+        int i = 1010;
+//        Connection.Response con = Jsoup.connect("https://www.dhlottery.co.kr/gameResult.do?method=byWin&drwNo="+i+"&dwrNoList="+i)
+//                .method(Connection.Method.POST)
+//                .execute();
+//        Document doc = con.parse();
+//        String text = doc.select(".desc").text();
+//        System.out.println(text.replace("(", "").replace(")", ""));
+        String  text = "2022년 04월 09일 추첨";
+        System.out.println(text);
+        int year = Integer.parseInt(text.substring(0, 4));
+        int month = Integer.parseInt(text.substring(6, 8));
+        int day = Integer.parseInt(text.substring(10, 12));
+        System.out.println(year);
+        System.out.println(month);
+        System.out.println(day);
+
+        LocalDate localDate = LocalDate.of(year, month, day);
+        System.out.println(localDate);
+    }
+
+    @Test
+    void test6() throws IOException {
         Connection.Response con = Jsoup.connect("https://www.dhlottery.co.kr/store.do?method=topStore&pageGubun=L645")
                 .data("method", "topStore")
                 .data("nowPage", "1")

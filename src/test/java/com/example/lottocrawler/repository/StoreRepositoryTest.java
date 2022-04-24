@@ -1,6 +1,7 @@
 package com.example.lottocrawler.repository;
 
 import com.example.lottocrawler.crawler.Crawler;
+import com.example.lottocrawler.domain.LottoRound;
 import com.example.lottocrawler.domain.LottoType;
 import com.example.lottocrawler.domain.Store;
 import com.example.lottocrawler.dto.StoreStatisticsDto;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +21,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @Transactional
 class StoreRepositoryTest {
     @Autowired
-    private StoreRepository repository;
+    private StoreRepository storeRepository;
+
+    @Autowired
+    private LottoRoundRepository lottoRoundRepository;
 
     @Autowired
     private Crawler crawler;
@@ -28,14 +33,16 @@ class StoreRepositoryTest {
 
     @BeforeEach
     void setup() {
+        LottoRound lottoRound = LottoRound.builder().round(1L).localDate(LocalDate.now()).build();
+
         storeList = new ArrayList<>();
-        storeList.add(Store.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
-        storeList.add(Store.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
-        storeList.add(Store.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
-        storeList.add(Store.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
-        storeList.add(Store.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
-        repository.deleteAll();
-        repository.saveAll(storeList);
+        storeList.add(Store.builder().name("name1").address("address1").round(lottoRound).lottoType(LottoType.AUTO).build());
+        storeList.add(Store.builder().name("name1").address("address1").round(lottoRound).lottoType(LottoType.AUTO).build());
+        storeList.add(Store.builder().name("name1").address("address1").round(lottoRound).lottoType(LottoType.AUTO).build());
+        storeList.add(Store.builder().name("name1").address("address1").round(lottoRound).lottoType(LottoType.AUTO).build());
+        storeList.add(Store.builder().name("name1").address("address1").round(lottoRound).lottoType(LottoType.AUTO).build());
+        storeRepository.deleteAll();
+        storeRepository.saveAll(storeList);
     }
 
     @Test
@@ -51,8 +58,8 @@ class StoreRepositoryTest {
         Store input = storeList.get(0);
 
         //when
-        repository.save(input);
-        List<Store> storeList = repository.findAll();
+        storeRepository.save(input);
+        List<Store> storeList = storeRepository.findAll();
 
         //then
         Store output = storeList.get(0);
@@ -65,7 +72,7 @@ class StoreRepositoryTest {
         crawler.start();
 
         //when
-        List<StoreStatisticsDto> storeList = repository.findGroupByName();
+        List<StoreStatisticsDto> storeList = storeRepository.findGroupByName();
 
         //then
         for(StoreStatisticsDto storeStatisticsDto : storeList) {
@@ -80,7 +87,7 @@ class StoreRepositoryTest {
         String address = storeList.get(0).getAddress();
 
         //when
-        List<Store> list = repository.findByNameAndAddress(name, address);
+        List<Store> list = storeRepository.findByNameAndAddress(name, address);
 
         //then
         assertThat(list.size()).isEqualTo(storeList.size());

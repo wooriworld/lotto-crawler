@@ -1,5 +1,6 @@
 package com.example.lottocrawler.dto;
 
+import com.example.lottocrawler.domain.LottoRound;
 import com.example.lottocrawler.domain.LottoType;
 import com.example.lottocrawler.domain.Store;
 import lombok.*;
@@ -9,13 +10,13 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 public class StoreDto {
-    private int round;
+    private LottoRound round;
     private String name;
     private LottoType lottoType;
     private String address;
 
     @Builder
-    public StoreDto(int round, String name, LottoType lottoType, String address) {
+    public StoreDto(LottoRound round, String name, LottoType lottoType, String address) {
         this.round = round;
         this.name = name;
         this.lottoType = lottoType;

@@ -1,5 +1,6 @@
 package com.example.lottocrawler.domain;
 
+import com.example.lottocrawler.dto.LottoRoundDto;
 import com.example.lottocrawler.dto.StoreDto;
 import lombok.*;
 
@@ -17,13 +18,14 @@ public class Store extends BaseEntity {
     private String name;
     @Column(nullable = false)
     private String address;
-    @Column
-    private int round;
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn(name="round")
+    private LottoRound round;
     @Column(nullable = false)
     private LottoType lottoType;
 
     @Builder
-    public Store(Long id, String name, String address, int round, LottoType lottoType) {
+    public Store(Long id, String name, String address, LottoRound round, LottoType lottoType) {
         this.id = id;
         this.name = name;
         this.address = address;

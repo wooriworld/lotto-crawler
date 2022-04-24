@@ -1,5 +1,6 @@
 package com.example.lottocrawler.service;
 
+import com.example.lottocrawler.domain.LottoRound;
 import com.example.lottocrawler.domain.LottoType;
 import com.example.lottocrawler.dto.StoreDto;
 import com.example.lottocrawler.repository.StoreRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,12 +29,14 @@ class StoreServiceTest {
 
     @BeforeEach
     void setup() {
+        LottoRound lottoRound = LottoRound.builder().round(1L).localDate(LocalDate.now()).build();
+
         storeDtoList = new ArrayList<>();
-        storeDtoList.add(StoreDto.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
-        storeDtoList.add(StoreDto.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
-        storeDtoList.add(StoreDto.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
-        storeDtoList.add(StoreDto.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
-        storeDtoList.add(StoreDto.builder().name("name1").address("address1").round(1).lottoType(LottoType.AUTO).build());
+        storeDtoList.add(StoreDto.builder().name("name1").address("address1").round(lottoRound).lottoType(LottoType.AUTO).build());
+        storeDtoList.add(StoreDto.builder().name("name1").address("address1").round(lottoRound).lottoType(LottoType.AUTO).build());
+        storeDtoList.add(StoreDto.builder().name("name1").address("address1").round(lottoRound).lottoType(LottoType.AUTO).build());
+        storeDtoList.add(StoreDto.builder().name("name1").address("address1").round(lottoRound).lottoType(LottoType.AUTO).build());
+        storeDtoList.add(StoreDto.builder().name("name1").address("address1").round(lottoRound).lottoType(LottoType.AUTO).build());
         repository.deleteAll();
         for(StoreDto dto : storeDtoList)
             service.save(dto);

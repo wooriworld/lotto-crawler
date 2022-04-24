@@ -1,6 +1,9 @@
 package com.example.lottocrawler.crawler;
 
+import com.example.lottocrawler.domain.LottoRound;
+import com.example.lottocrawler.dto.LottoRoundDto;
 import com.example.lottocrawler.dto.StoreDto;
+import com.example.lottocrawler.service.LottoRoundService;
 import com.example.lottocrawler.service.StoreService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,9 @@ class CrawlerTest {
     StoreService service;
 
     @Autowired
+    LottoRoundService lottoRoundService;
+
+    @Autowired
     Crawler crawler;
 
     @Test
@@ -28,5 +34,17 @@ class CrawlerTest {
             System.out.println(dto);
         }
         System.out.println(storeList.size());
+    }
+
+    @Test
+    void lottoRound() {
+        crawler.lottoRound();
+
+        List<LottoRoundDto> lottoRoundDtoList = lottoRoundService.findAll();
+        for (int i = 0; i < lottoRoundDtoList.size(); i++) {
+            LottoRoundDto dto = lottoRoundDtoList.get(i);
+            System.out.println(dto);
+        }
+        System.out.println(lottoRoundDtoList.size());
     }
 }
